@@ -1,5 +1,5 @@
 const config = {
-    apiURL: 'http://localhost:8000/api'
+    apiURL: process.env.API_URL || 'http://localhost:8000/api'
 }
 
 export default config;
