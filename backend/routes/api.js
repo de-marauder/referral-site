@@ -69,8 +69,8 @@ router.post('/', async (req, res) => {
     if (referrer) {
         try {
 
-            await axios.put(`${process.env.APP_URL}:${process.env.PORT}/api`, { referrer: referrer, referred:  referred})
-            
+            await axios.put(`${process.env.APP_URL}/api`, { referrer: referrer, referred: referred })
+
         } catch (e) {
             console.log(`ERROR: Could not PUT referrer.\n${e.message}`)
             res.status(403).json({
@@ -78,10 +78,10 @@ router.post('/', async (req, res) => {
             })
             return;
         }
-        
+
     }
     res.status(200).json(result)
-    
+
 })
 
 router.put('/', async (req, res) => {
@@ -92,26 +92,26 @@ router.put('/', async (req, res) => {
 
     try {
 
-        
+
         let referrerUser = await User.findById(userID);
-    referrerUser = await User.findByIdAndUpdate(userID, 
-        { 
-            referralCount: referrerUser?.referralCount + 1, 
-            referred: [...referrerUser?.referred, referred] 
-        });
+        referrerUser = await User.findByIdAndUpdate(userID,
+            {
+                referralCount: referrerUser?.referralCount + 1,
+                referred: [...referrerUser?.referred, referred]
+            });
 
-    console.log(referrerUser);
-    
-    result = {
-        referrerUser,
+        console.log(referrerUser);
+
+        result = {
+            referrerUser,
+        }
+
+        res.status(200).json(result)
+    } catch (e) {
+        console.log("An error occured while trying to PUT. ", err)
+        res.status(403).json({ error: `An error occured while tryin gto PUT. ${err}` })
     }
-
-    res.status(200).json(result)
-} catch (e) {
-    console.log("An error occured while tryin gto PUT. ", err)
-    res.status(403).json({error: `An error occured while tryin gto PUT. ${err}`})
-}
-console.log("PUT ends")
+    console.log("PUT ends")
 })
 
 
