@@ -30,9 +30,6 @@ router.post('/', async (req, res) => {
         referrer: referrer ? referrer : null
     };
 
-    // console.log(user)
-    // console.log(`referrer: ${referrer}`)
-
     const newUser = new User(user);
 
     // Check if user exists using emails which should ideally be unique
@@ -70,7 +67,6 @@ router.post('/', async (req, res) => {
 
     // Update referrer
     if (referrer) {
-        console.log("This shouldn't show")
         try {
 
             await axios.put(`${process.env.APP_URL}:${process.env.PORT}/api`, { referrer: referrer, referred:  referred})
@@ -94,11 +90,14 @@ router.put('/', async (req, res) => {
     const userID = req.body.referrer;
     const referred = req.body.referred;
 
-    let referrerUser = await User.findById(userID);
+    try {
+
+        
+        let referrerUser = await User.findById(userID);
     referrerUser = await User.findByIdAndUpdate(userID, 
         { 
-            referralCount: referrerUser.referralCount + 1, 
-            referred: [...referrerUser.referred, referred] 
+            referralCount: referrerUser?.referralCount + 1, 
+            referred: [...referrerUser?.referred, referred] 
         });
 
     console.log(referrerUser);
@@ -107,8 +106,12 @@ router.put('/', async (req, res) => {
         referrerUser,
     }
 
-    res.json(result)
-    console.log("PUT ends")
+    res.status(200).json(result)
+} catch (e) {
+    console.log("An error occured while tryin gto PUT. ", err)
+    res.status(403).json({error: `An error occured while tryin gto PUT. ${err}`})
+}
+console.log("PUT ends")
 })
 
 
