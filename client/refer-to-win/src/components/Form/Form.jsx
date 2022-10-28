@@ -36,7 +36,7 @@ export default function Form() {
         }).then((data) => {
             const registeredUser = data.data.user;
 
-            let link = 'http://localhost:5173';
+            let link = process.env.SITE_URL || 'http://localhost:5173';
 
             if (registeredUser?._id) {
                 link += `?referrer=${registeredUser?._id}`;
