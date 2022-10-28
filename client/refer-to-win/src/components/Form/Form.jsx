@@ -19,6 +19,8 @@ export default function Form() {
 
     if (referrer) apiURL += `?referrer=${referrer}`
 
+    console.log("API URL: ", apiURL);
+
     const register = (e) => {
         e.preventDefault();
 
