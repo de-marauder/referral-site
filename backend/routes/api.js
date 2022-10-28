@@ -68,7 +68,7 @@ router.post('/', async (req, res) => {
     // Update referrer
     if (referrer) {
         try {
-
+            console.log(`${process.env.APP_URL}/api`);
             await axios.put(`${process.env.APP_URL}/api`, { referrer: referrer, referred: referred })
 
         } catch (e) {
