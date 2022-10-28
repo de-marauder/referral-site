@@ -1,5 +1,5 @@
 const config = {
-    apiURL: 'https://referralsite.onrender.com'
+    apiURL: 'https://referralsite.onrender.com/api'
     //  || 'http://localhost:8000/api'
 }
 
